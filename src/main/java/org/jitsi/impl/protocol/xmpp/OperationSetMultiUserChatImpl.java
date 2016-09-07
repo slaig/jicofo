@@ -22,6 +22,9 @@ import net.java.sip.communicator.service.protocol.*;
 import org.jivesoftware.smack.*;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Multi user chat implementation stripped to the minimum required by the focus
@@ -43,6 +46,8 @@ public class OperationSetMultiUserChatImpl
     private final Map<String, ChatRoomImpl> rooms
         = new HashMap<String, ChatRoomImpl>();
 
+    private final ScheduledExecutorService offlineCleaner;
+
     /**
      * Creates new instance of {@link OperationSetMultiUserChatImpl}.
      *
@@ -51,6 +56,17 @@ public class OperationSetMultiUserChatImpl
     OperationSetMultiUserChatImpl(XmppProtocolProvider protocolProvider)
     {
         this.protocolProvider = protocolProvider;
+
+        this.offlineCleaner = Executors.newScheduledThreadPool(1);
+        this.offlineCleaner.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                for (ChatRoomImpl room : new ArrayList<>(rooms.values())) {
+                    room.cleanOfflineParticipants();
+                }
+            }
+        }, 0, 2, TimeUnit.SECONDS);
+
     }
 
     /**
