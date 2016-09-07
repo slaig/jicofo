@@ -161,10 +161,13 @@ public class ChatRoomImpl
     }
 
     private void cleanOfflineParticipants() {
+        ArrayList<ChatMemberImpl> copy = new ArrayList<>(members.values());
+        logger.info("Chat " + this.roomName  + " have  " + copy.size() + " members");
+
         long currentTime = System.currentTimeMillis();
 
         // бегаем без синхронизации
-        for (ChatMemberImpl member : members.values())
+        for (ChatMemberImpl member : copy)
         {
             long lastPresenceTime = member.getPresenceTime();
             if (lastPresenceTime == 0) {
@@ -785,6 +788,7 @@ public class ChatRoomImpl
     @Override
     public boolean destroy(String reason, String alternateAddress)
     {
+        logger.info("Shutdown cleaner!");
         this.offlineCleaner.shutdownNow();
 
         try
