@@ -282,6 +282,6 @@ public class ChatMemberImpl
     public String toString()
     {
         return String.format(
-                "ChatMember[%s, jid: %s]@%s", address, memberJid, hashCode());
+                "ChatMember[%s, nickname: %s, jid: %s]@%s", address, nickname, memberJid, hashCode());
     }
 }
