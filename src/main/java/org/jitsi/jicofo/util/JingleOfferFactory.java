@@ -289,8 +289,8 @@ public class JingleOfferFactory
         absSendTime.setURI(URI.create(RTPExtension.ABS_SEND_TIME_URN));
         rtpDesc.addExtmap(absSendTime);
 
-        addVP8(rtpDesc);
         addH264(rtpDesc);
+        addVP8(rtpDesc);
 
         // a=rtpmap:117 ulpfec/90000
 //        addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
