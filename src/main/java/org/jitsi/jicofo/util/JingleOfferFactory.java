@@ -253,7 +253,42 @@ public class JingleOfferFactory
         // a=rtpmap:117 ulpfec/90000
         //addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
 
+        addH264(rtpDesc, minBitrate, startBitrate);
+
         content.addChildExtension(rtpDesc);
+    }
+
+    private static void addH264(RtpDescriptionPacketExtension rtpDesc,
+                                int minBitrate,
+                                int startBitrate) {
+        // a=rtpmap:107 H264/90000
+        int h264pt = 107;
+        PayloadTypePacketExtension h264
+                = addPayloadTypeExtension(rtpDesc, h264pt, Constants.H264, 90000);
+
+        // a=rtcp-fb:107 ccm fir
+        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("ccm", "fir"));
+
+        // a=rtcp-fb:107 nack
+        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", null));
+
+        // a=rtcp-fb:107 nack pli
+        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
+
+        // a=rtcp-fb:107 goog-remb
+        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("goog-remb", null));
+
+        if (minBitrate != -1)
+        {
+            addParameterExtension(
+                    h264, "x-google-min-bitrate", String.valueOf(minBitrate));
+        }
+
+        if (startBitrate != -1)
+        {
+            addParameterExtension(
+                    h264, "x-google-start-bitrate", String.valueOf(startBitrate));
+        }
     }
 
     /**
