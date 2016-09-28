@@ -110,7 +110,7 @@ public class JingleOfferFactory
             = createContentPacketExtension(
                     MediaType.VIDEO, disableIce, useDtls);
 
-        addVideoToContent(videoContentPe, useRtx, minBitrate, startBitrate);
+        addVideoToContentMy(videoContentPe, useRtx, minBitrate, startBitrate);
 
         return videoContentPe;
     }
@@ -253,14 +253,61 @@ public class JingleOfferFactory
         // a=rtpmap:117 ulpfec/90000
         //addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
 
-        addH264(rtpDesc, minBitrate, startBitrate);
-
         content.addChildExtension(rtpDesc);
     }
 
-    private static void addH264(RtpDescriptionPacketExtension rtpDesc,
-                                int minBitrate,
-                                int startBitrate) {
+    /**
+     * Adds the audio-related extensions for an offer to a
+     * {@link ContentPacketExtension}.
+     * @param content the {@link ContentPacketExtension} to add extensions to.
+     */
+    private static void addVideoToContentMy(ContentPacketExtension content,
+                                          boolean useRtx,
+                                          int minBitrate,
+                                          int startBitrate)
+    {
+        RtpDescriptionPacketExtension rtpDesc
+                = new RtpDescriptionPacketExtension();
+
+        rtpDesc.setMedia("video");
+
+        // This is currently disabled, because we don't support it in the
+        // bridge (and currently clients seem to not use it when
+        // abs-send-time is available).
+        // a=extmap:2 urn:ietf:params:rtp-hdrext:toffset
+        //RTPHdrExtPacketExtension toOffset
+        //    = new RTPHdrExtPacketExtension();
+        //toOffset.setID("2");
+        //toOffset.setURI(
+        //    URI.create("urn:ietf:params:rtp-hdrext:toffset"));
+        //rtpDesc.addExtmap(toOffset);
+
+        // a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time
+        RTPHdrExtPacketExtension absSendTime
+                = new RTPHdrExtPacketExtension();
+        absSendTime.setID("3");
+        absSendTime.setURI(URI.create(RTPExtension.ABS_SEND_TIME_URN));
+        rtpDesc.addExtmap(absSendTime);
+
+
+
+        // a=rtpmap:100 VP8/90000
+        int vp8pt = 100;
+        PayloadTypePacketExtension vp8
+                = addPayloadTypeExtension(rtpDesc, vp8pt, Constants.VP8, 90000);
+
+        // a=rtcp-fb:100 ccm fir
+        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("ccm", "fir"));
+
+        // a=rtcp-fb:100 nack
+//        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", null));
+
+        // a=rtcp-fb:100 nack pli
+        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
+
+
+
+
         // a=rtpmap:107 H264/90000
         int h264pt = 107;
         PayloadTypePacketExtension h264
@@ -270,7 +317,7 @@ public class JingleOfferFactory
         h264.addRtcpFeedbackType(createRtcpFbPacketExtension("ccm", "fir"));
 
         // a=rtcp-fb:107 nack
-        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", null));
+//        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", null));
 
         // a=rtcp-fb:107 nack pli
         h264.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
@@ -278,17 +325,16 @@ public class JingleOfferFactory
         // a=rtcp-fb:107 goog-remb
         h264.addRtcpFeedbackType(createRtcpFbPacketExtension("goog-remb", null));
 
-        if (minBitrate != -1)
-        {
-            addParameterExtension(
-                    h264, "x-google-min-bitrate", String.valueOf(minBitrate));
-        }
+        // a=fmtp:107 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42e01f
+        addParameterExtension(h264, "level-asymmetry-allowed", "1");
+        addParameterExtension(h264, "packetization-mode", "1");
+        addParameterExtension(h264, "profile-level-id", "42e01f");
 
-        if (startBitrate != -1)
-        {
-            addParameterExtension(
-                    h264, "x-google-start-bitrate", String.valueOf(startBitrate));
-        }
+
+        // a=rtpmap:117 ulpfec/90000
+        addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
+
+        content.addChildExtension(rtpDesc);
     }
 
     /**
