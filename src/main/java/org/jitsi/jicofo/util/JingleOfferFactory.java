@@ -313,6 +313,8 @@ public class JingleOfferFactory
         // a=rtcp-fb:107 nack pli
         h264.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
 
+        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("transport-cc", null));
+
         // a=rtcp-fb:107 goog-remb
 //        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("goog-remb", null));
 
