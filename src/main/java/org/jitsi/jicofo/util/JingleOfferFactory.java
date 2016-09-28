@@ -290,24 +290,6 @@ public class JingleOfferFactory
         rtpDesc.addExtmap(absSendTime);
 
 
-
-        // a=rtpmap:100 VP8/90000
-        int vp8pt = 100;
-        PayloadTypePacketExtension vp8
-                = addPayloadTypeExtension(rtpDesc, vp8pt, Constants.VP8, 90000);
-
-        // a=rtcp-fb:100 ccm fir
-        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("ccm", "fir"));
-
-        // a=rtcp-fb:100 nack
-//        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", null));
-
-        // a=rtcp-fb:100 nack pli
-        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
-
-
-
-
         // a=rtpmap:107 H264/90000
         int h264pt = 107;
         PayloadTypePacketExtension h264
@@ -331,8 +313,27 @@ public class JingleOfferFactory
         addParameterExtension(h264, "profile-level-id", "42e01f");
 
 
+
+        // a=rtpmap:100 VP8/90000
+        int vp8pt = 100;
+        PayloadTypePacketExtension vp8
+                = addPayloadTypeExtension(rtpDesc, vp8pt, Constants.VP8, 90000);
+
+        // a=rtcp-fb:100 ccm fir
+        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("ccm", "fir"));
+
+        // a=rtcp-fb:100 nack
+//        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", null));
+
+        // a=rtcp-fb:100 nack pli
+        vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
+
+
+
+
+
         // a=rtpmap:117 ulpfec/90000
-        addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
+//        addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
 
         content.addChildExtension(rtpDesc);
     }
