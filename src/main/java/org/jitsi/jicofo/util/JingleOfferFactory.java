@@ -289,7 +289,16 @@ public class JingleOfferFactory
         absSendTime.setURI(URI.create(RTPExtension.ABS_SEND_TIME_URN));
         rtpDesc.addExtmap(absSendTime);
 
+        addVP8(rtpDesc);
+        addH264(rtpDesc);
 
+        // a=rtpmap:117 ulpfec/90000
+//        addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
+
+        content.addChildExtension(rtpDesc);
+    }
+
+    private static void addH264(RtpDescriptionPacketExtension rtpDesc) {
         // a=rtpmap:107 H264/90000
         int h264pt = 107;
         PayloadTypePacketExtension h264
@@ -311,9 +320,9 @@ public class JingleOfferFactory
         addParameterExtension(h264, "level-asymmetry-allowed", "1");
         addParameterExtension(h264, "packetization-mode", "1");
         addParameterExtension(h264, "profile-level-id", "42e01f");
+    }
 
-
-
+    private static void addVP8(RtpDescriptionPacketExtension rtpDesc) {
         // a=rtpmap:100 VP8/90000
         int vp8pt = 100;
         PayloadTypePacketExtension vp8
@@ -327,15 +336,6 @@ public class JingleOfferFactory
 
         // a=rtcp-fb:100 nack pli
         vp8.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
-
-
-
-
-
-        // a=rtpmap:117 ulpfec/90000
-//        addPayloadTypeExtension(rtpDesc, 117, Constants.ULPFEC, 90000);
-
-        content.addChildExtension(rtpDesc);
     }
 
     /**
