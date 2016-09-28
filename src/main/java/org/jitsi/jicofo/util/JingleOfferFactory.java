@@ -311,7 +311,7 @@ public class JingleOfferFactory
         // a=rtpmap:107 H264/90000
         int h264pt = 107;
         PayloadTypePacketExtension h264
-                = addPayloadTypeExtension(rtpDesc, h264pt, Constants.H264, 90000);
+                = addPayloadTypeExtension(rtpDesc, h264pt, "H264", 90000);
 
         // a=rtcp-fb:107 ccm fir
         h264.addRtcpFeedbackType(createRtcpFbPacketExtension("ccm", "fir"));
