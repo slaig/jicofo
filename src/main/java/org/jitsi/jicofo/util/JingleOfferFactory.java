@@ -323,7 +323,7 @@ public class JingleOfferFactory
         h264.addRtcpFeedbackType(createRtcpFbPacketExtension("nack", "pli"));
 
         // a=rtcp-fb:107 goog-remb
-        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("goog-remb", null));
+//        h264.addRtcpFeedbackType(createRtcpFbPacketExtension("goog-remb", null));
 
         // a=fmtp:107 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42e01f
         addParameterExtension(h264, "level-asymmetry-allowed", "1");
