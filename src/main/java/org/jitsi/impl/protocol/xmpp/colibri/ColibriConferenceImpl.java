@@ -201,6 +201,11 @@ public class ColibriConferenceImpl
                 config.isAdaptiveSimulcastEnabled());
             colibriBuilder.setSimulcastMode(config.getSimulcastMode());
             colibriBuilder.setAudioPacketDelay(config.getAudioPacketDelay());
+
+            String relayType = config.getRtpLevelRelayType();
+            if (relayType != null) {
+                colibriBuilder.setRTPLevelRelayType(relayType);
+            }
         }
     }
 

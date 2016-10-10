@@ -342,4 +342,10 @@ public class JitsiMeetConfig
         Boolean useRoom = getBoolean(USE_ROOM_AS_SHARED_DOC_NAME);
         return (useRoom != null) && useRoom;
     }
+
+    public String getRtpLevelRelayType()
+    {
+        return properties.get("rtpLevelRelayType");
+    }
+
 }
