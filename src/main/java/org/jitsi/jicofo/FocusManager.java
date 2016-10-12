@@ -23,6 +23,7 @@ import net.java.sip.communicator.service.shutdown.*;
 import net.java.sip.communicator.util.*;
 import net.java.sip.communicator.util.Logger;
 
+import org.jitsi.impl.protocol.xmpp.ChatRoomImpl;
 import org.jitsi.jicofo.log.*;
 import org.jitsi.service.configuration.*;
 import org.jitsi.util.*;
@@ -653,16 +654,14 @@ public class FocusManager
                         // Is active ?
                         if (idleStamp == -1)
                         {
-                            System.out.println(">>>>>>>>>>>>>>> active conference " + conference.getRoomName());
-                            System.out.println(">>>" + conference.getFocusJid());
-                            System.out.println(">>>" + conference.getId());
-                            System.out.println(">>>" + conference.getColibriConference());
-                            System.out.println(">>>" + conference.getChatRoom());
-                            System.out.println(">>>" + conference.getParticipantCount());
-                            System.out.println(">>>" + conference.getIdleTimestamp());
-                            System.out.println(">>>" + conference.getJingle());
-                            System.out.println(">>>>>" + conference.getChatRoom().getMembersCount());
-                            System.out.println(">>>>>" + conference.getChatRoom().getMembers());
+                            if (conference.getColibriConference() == null) {
+                                // медиа еще не пошла
+                                logger.info("Conference " + conference.getRoomName() + " wait participant");
+                            } else {
+                                logger.info("Conference " + conference.getRoomName() + " have " + conference.getParticipantCount() + " participants");
+
+                                ((ChatRoomImpl) conference.getChatRoom()).cleanOfflineParticipants();
+                            }
 
                             continue;
                         }

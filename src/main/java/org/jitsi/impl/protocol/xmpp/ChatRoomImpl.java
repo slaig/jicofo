@@ -150,12 +150,7 @@ public class ChatRoomImpl
         muc.addParticipantListener(participantListener);
     }
 
-    void cleanOfflineParticipants() {
-        logger.info("Chat " + this.roomName  + " have  " + this.participantNumber + " members");
-        if (this.participantNumber <= 1) {
-            return;
-        }
-
+    public void cleanOfflineParticipants() {
         ArrayList<ChatMemberImpl> copy = new ArrayList<>(members.values());
 
         long currentTime = System.currentTimeMillis();
