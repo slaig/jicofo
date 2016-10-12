@@ -324,7 +324,7 @@ public class FocusManager
         }
 
         logger.info("Created new focus for " + room + "@" + focusUserDomain
-                        + " conferences count: " + conferences.size()
+                        + " coGbnferences count: " + conferences.size()
                         + " options:" + options.toString());
 
         // Send focus created event
@@ -653,6 +653,17 @@ public class FocusManager
                         // Is active ?
                         if (idleStamp == -1)
                         {
+                            System.out.println(">>>>>>>>>>>>>>> active conference " + conference.getRoomName());
+                            System.out.println(">>>" + conference.getFocusJid());
+                            System.out.println(">>>" + conference.getId());
+                            System.out.println(">>>" + conference.getColibriConference());
+                            System.out.println(">>>" + conference.getChatRoom());
+                            System.out.println(">>>" + conference.getParticipantCount());
+                            System.out.println(">>>" + conference.getIdleTimestamp());
+                            System.out.println(">>>" + conference.getJingle());
+                            System.out.println(">>>>>" + conference.getChatRoom().getMembersCount());
+                            System.out.println(">>>>>" + conference.getChatRoom().getMembers());
+
                             continue;
                         }
                         if (System.currentTimeMillis() - idleStamp > timeout)

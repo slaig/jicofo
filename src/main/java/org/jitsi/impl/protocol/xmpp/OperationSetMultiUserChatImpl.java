@@ -45,7 +45,7 @@ public class OperationSetMultiUserChatImpl
      */
     private final Map<String, ChatRoomImpl> rooms = new HashMap<>();
 
-    private final ScheduledExecutorService offlineCleaner;
+//    private final ScheduledExecutorService offlineCleaner;
 
     /**
      * Creates new instance of {@link OperationSetMultiUserChatImpl}.
@@ -56,15 +56,15 @@ public class OperationSetMultiUserChatImpl
     {
         this.protocolProvider = protocolProvider;
 
-        this.offlineCleaner = Executors.newScheduledThreadPool(1);
-        this.offlineCleaner.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                for (ChatRoomImpl room : new ArrayList<>(rooms.values())) {
-                    room.cleanOfflineParticipants();
-                }
-            }
-        }, 0, 2, TimeUnit.SECONDS);
+//        this.offlineCleaner = Executors.newScheduledThreadPool(1);
+//        this.offlineCleaner.scheduleAtFixedRate(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (ChatRoomImpl room : new ArrayList<>(rooms.values())) {
+//                    room.cleanOfflineParticipants();
+//                }
+//            }
+//        }, 0, 2, TimeUnit.SECONDS);
 
     }
 

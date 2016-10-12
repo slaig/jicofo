@@ -151,8 +151,12 @@ public class ChatRoomImpl
     }
 
     void cleanOfflineParticipants() {
+        logger.info("Chat " + this.roomName  + " have  " + this.participantNumber + " members");
+        if (this.participantNumber <= 1) {
+            return;
+        }
+
         ArrayList<ChatMemberImpl> copy = new ArrayList<>(members.values());
-        logger.info("Chat " + this.roomName  + " have  " + copy.size() + " members");
 
         long currentTime = System.currentTimeMillis();
 

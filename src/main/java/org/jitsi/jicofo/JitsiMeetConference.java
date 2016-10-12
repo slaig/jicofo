@@ -472,7 +472,7 @@ public class JitsiMeetConference
             {
                 if (colibriConference == null)
                 {
-                    initNewColibriConference();
+                    initNewColibriCbonference();
                 }
             }
 
