@@ -1023,13 +1023,12 @@ public class JitsiMeetConference
             if (ssrcOwner == peerToNotify)
                 continue;
 
+            // todo slaig в случае если микшируем звук то не надо слать аудио трэки
             if ("mixer".equals(config.getRtpLevelRelayType())) {
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + ssrcsToAdd);
                 Collection<SourcePacketExtension> videoSsrcs = ssrcsToAdd.getSSRCsForMedia("video");
                 ssrcsToAdd = new MediaSSRCMap();
                 ssrcsToAdd.addSSRCs("video", videoSsrcs);
 
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + ssrcGroupsToAdd);
                 List<SSRCGroup> videoGroups = ssrcGroupsToAdd.getSSRCGroupsForMedia("video");
                 ssrcGroupsToAdd = new MediaSSRCGroupMap();
                 ssrcGroupsToAdd.addSSRCGroups("video", videoGroups);
