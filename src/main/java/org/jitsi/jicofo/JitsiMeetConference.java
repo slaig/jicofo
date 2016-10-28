@@ -1023,6 +1023,18 @@ public class JitsiMeetConference
             if (ssrcOwner == peerToNotify)
                 continue;
 
+            if ("mixer".equals(config.getRtpLevelRelayType())) {
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + ssrcsToAdd);
+                Collection<SourcePacketExtension> videoSsrcs = ssrcsToAdd.getSSRCsForMedia("video");
+                ssrcsToAdd = new MediaSSRCMap();
+                ssrcsToAdd.addSSRCs("video", videoSsrcs);
+
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + ssrcGroupsToAdd);
+                List<SSRCGroup> videoGroups = ssrcGroupsToAdd.getSSRCGroupsForMedia("video");
+                ssrcGroupsToAdd = new MediaSSRCGroupMap();
+                ssrcGroupsToAdd.addSSRCGroups("video", videoGroups);
+            }
+
             JingleSession jingleSessionToNotify
                 = peerToNotify.getJingleSession();
             if (jingleSessionToNotify == null)
